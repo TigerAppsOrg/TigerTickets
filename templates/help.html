@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+
+{% if loggedin == "True" %}
+{% include 'header.html' %}
+{%endif%}
+
+{% if loggedin == "False" %}
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon-32x32.png') }}">
+  <title>TigerTickets</title>
+</head>
+
+<body>
+
+<div id="all" class="flex-container-col">
+  <nav id="menu-bar" class="navbar navbar-expand-lg navbar-light">
+    <a class="navbar-brand" href="/">TigerTickets</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="about">About Us</a>
+        </li>
+        <li class="nav-item">
+	        <a class="nav-link" href="login">Login</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <div id="main-pane" class="flex-container-row">
+
+    <div id="result-pane" class="overflow-auto">
+
+{%endif%}
+
+{% if error == "True" %}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <strong>Unfortunately there is a server error at this moment. Please try again later or navigate to our home page at <a href="/">www.tigertickets.herokuapps.com</a></strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
+{% if show == "True" %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong> Delete ticket successful. Your ticket has been deleted. </strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
+{% if show == "False" %}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <strong> Delete ticket unsuccessful. Your ticket was not deleted, please try again. </strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
+{% if post == "True" %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong> Post ticket successful. Your ticket has been posted. </strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
+{% if post == "False" %}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <strong> Post ticket unsuccessful. Your ticket failed to post. Please try again. </strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
+{% if edit == "True" %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong> Edit ticket successful. Your ticket information has been edited. </strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
+{% if edit == "False" %}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <strong> Edit ticket unsuccessful. Your ticket information failed to edit. Please try again. </strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
+
+{% if notif == "True" %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong> Notification submit successful. Your notification has been saved. </strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
+{% if notif == "False" %}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <strong> Notification submit unsuccessful. Your submission failed. Please try again. </strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
+{% if report == "True" %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong> Report submit successful. Thank you for your feedback. </strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
+{% if report == "False" %}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <strong> Report submit unsuccessful. Your submission failed. Please try again. </strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
+{% if confirmBool == "1" %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong> Ticket confirmed. Transaction has been completed. </strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
+
+{% if confirmBool == "0" %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong> Ticket cancelled. Transaction has been cancelled. </strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
+  <h3>What is TigerTickets</h3>
+  <p>TigerTickets is a secondary marketplace that allows Princeton students and staffs to buy, re-sell, and exchange tickets. </p>
+  <br>
+  <h3>Code Of Conduct</h3>
+  <div>
+    <p>TigerTickets is not responsible for incomplete transactions, fraudulent tickets, and illegally-sold tickets. In order to keep our platform running smoothly, we expect all users to abide by the following standards:</p>
+    <p>1. Integrity -- Engage with the platform honestly, legally, and in compliance with all Princeton policies. This includes but is not limited to:</p>
+    <ul>
+      <li>Princeton affiliated event tickets cannot be sold higher than its original price.</li>
+      <li>Princeton affiliated event tickets purchased through Princeton’s <a href="https://odus.princeton.edu/activities/initiatives/passport_to_the_arts">Passport to the Arts</a> cannot be sold at the higher, non-Passport price.</li>
+      <li>Selling fake or invalid tickets is prohibited.</li>
+      <li>In general, selling tickets in violation of the original seller’s rules is prohibited.</li>
+    </ul>
+    
+    <p>2. Responsible Usage -- TigerTickets is a platform of trustworthy exchanges. Refrain from backing out of an agreed transaction after claiming a ticket or agreeing to sell/exchange a ticket. Both parties should clearly communicate the details of each transaction in a reasonably responsive manner. Sellers should remove any tickets that they are no longer selling.</p>
+    
+    <p>3. Alerting -- Report any users who are not properly engaging with TigerTicket's platform.</p>
+  </div>
+  <br>
+  <h3>Tutorial</h3>
+  <img class="img-responsive" src="/static/media/tutorial-1.png" style="width:80%;height:auto;" alt></img>
+  <img class="img-responsive" src="/static/media/tutorial-2.png" style="width:80%;height:auto;" alt></img>
+  <img class="img-responsive" src="/static/media/tutorial-3.png" style="width:80%;height:auto;" alt></img>
+  <img class="img-responsive" src="/static/media/tutorial-4.png" style="width:80%;height:auto;" alt></img>
+  <br>
+  <div>
+      <p>For more information please refer to our <a href="https://docs.google.com/document/d/1CL1xs6IDe3WMGRrj2ot-UC_wZohSGmGly8KC2n-Ekjo/edit?usp=sharing">User's Guide</a> to learn how to use our platform. If you encounter any issues, please fill out a report and we will address the issue as soon as possible. </p>
+  </div>
+  {% include 'footer.html' %}
+</html>

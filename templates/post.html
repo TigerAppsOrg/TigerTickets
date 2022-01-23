@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+{% include 'header.html' %}
+{% if show == "groupAdded" %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong> TigerTickets has been notified about your group! </strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
+{% if error == "True" %}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <strong>Unfortunately there is a server error at this moment. Please try again later or navigate to our <a href="/">www.tigertickets.herokuapps.com</a></strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
+  <h3>Post to Sell or Exchange Your Ticket</h3>
+  <form action="addPostToDatabase" method="post">
+  <div class="form-group">
+    <label for="event">Please select which event you are selling for（Required):</label>
+    <select class="form-control" name="eventinput" placeholder="test" onchange="otherEvents(this);" required>
+      <option value="" disabled selected>Select an event</option>
+      <optgroup label="Dance Groups">
+      	<option>BAC</option>
+      	<option>BodyHype</option>
+      	<option>Disiac</option>
+      	<option>Expressions</option>
+        <option>Highsteppers</option>
+      	<option>KoKo Pops</option>
+        <option>Mas Flow</option>
+      	<option>Naacho</option>
+        <option>Princeton Bhangra</option>
+        <option>Princeton University Ballet</option>
+      	<option>Raqs</option>
+        <option>Six14</option>
+      	<option>Sympoh</option>
+        <option>TapCats</option>
+      	<option>Triple 8</option>
+      </optgroup>
+      <optgroup label="Music Groups">
+        <option>Footnotes</option>
+        <option>Katzenjammers</option>
+        <option>Kindred Spirit</option>
+        <option>La Vie En Cello</option>
+        <option>Nassoons</option>
+        <option>Old NasSoul</option>
+        <option>Opus 21</option>
+        <option>POCO</option>
+        <option>PPE</option>
+        <option>PUO</option>
+        <option>R20</option>
+        <option>Shere Khan</option>
+        <option>Sinfonia</option>
+        <option>Tigerlilies</option>
+        <option>Tigertones</option>
+        <option>Tigressions</option>
+        <option>Wildcats</option>
+      </optgroup>
+      <optgroup label="Performance Groups">
+        <option>Fuzzy Dice</option>
+        <option>Juggling Club</option>
+        <option>Lobster Club</option>
+        <option>Quipfire!</option>
+        <option>Triangle</option>
+      </optgroup>
+      <optgroup label="Broadway Shows">
+	      <option>Butler</option>
+        <option>Forbes</option>
+        <option>Mathey</option>
+        <option>Rocky</option>
+        <option>Whitman</option>
+        <option>Wilson</option>
+      </optgroup>
+      <optgroup label="Other">
+	      <option>Other</option>
+      </optgroup>
+    </select>
+  </div>
+    <script>
+function otherEvents(that) {
+    if (that.value == "Other") {
+        document.getElementById("ifother").style.display = "block";
+        $('#otherevent').attr('required', true);
+    } else {
+        document.getElementById("ifother").style.display = "none";
+        $('#otherevent').attr('required', false);
+    }
+}
+   </script>
+  <div class="form-group" id="ifother" style="display: none;">
+    <label for="form-autocomplete">Please enter the name of your event (please take into consideration the list of suggested names that may appear)（Required):</label>
+    <input type="text" class="form-control" name="otherEvent" id="form-autocomplete otherevent" list="shows">
+      <datalist id="shows">
+        {% for other in otherTickets %}
+        <option value='{{other[2]}}' />
+        {% endfor %}
+      </datalist>
+  </div>
+  <div class="form-group">
+    <label for="type">Please indicate whether you are selling or exchanging your ticket（Required):</label>
+    <select class="form-control" name="type" id="transactionType" onChange="optionToggle(this.value)">
+      <option>Sell a Ticket</option>
+      <option>Exchange a Ticket</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="date">Date of the Show（Required):</label>
+    <input type="date" class="form-control" id="textdate" name="date" required>
+  </div>
+  <div class="form-group">
+    <label for="time">Time of the Show（Required):</label>
+    <input type="time" class="form-control" name="time" required>
+  </div>
+  <div class="form-group">
+    <label for="description" id="description">Description (Optional):</label>
+    <input type="description" id="descriptionInput" class="form-control" name="description">
+  </div>
+  <div class="form-group">
+    <label for="price">Please indicate the price (in dollars) you are selling at (Enter an integer greater than or equal to 0). If you clicked exchange, the price is automatically going to be 0)（Required):</label>
+    <input class="form-control" id="priceinput" name="price" type="number" min="0" value="0" required></input>
+  </div>
+
+  <!-- <div class="flex-item">
+  <button class="btn btn-success btn-lg" type="submit">Post</button>
+  </div> -->
+
+  <div class="flex-item">
+    <button class="btn btn-success btn-lg" type="button" data-toggle="modal" data-target="#codeOfConduct">Continue</button>
+    </div>
+
+     
+  <div class="modal fade " id="codeOfConduct" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Code Of Conduct</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>TigerTickets is not responsible for incomplete transactions, fraudulent tickets, and illegally-sold tickets. In order to keep our platform running smoothly, we expect all users to abide by the following standards:</p>
+          <p>1. Integrity -- Engage with the platform honestly, legally, and in compliance with all Princeton policies. This includes but is not limited to:</p>
+          <ul>
+            <li>Princeton affiliated event tickets cannot be sold higher than its original price.</li>
+            <li>Princeton affiliated event tickets purchased through Princeton’s <a href="https://odus.princeton.edu/activities/initiatives/passport_to_the_arts">Passport to the Arts</a> cannot be sold at the higher, non-Passport price.</li>
+            <li>Selling fake or invalid tickets is prohibited.</li>
+            <li>In general, selling tickets in violation of the original seller’s rules is prohibited.</li>
+          </ul>
+          
+          <p>2. Responsible Usage -- TigerTickets is a platform of trustworthy exchanges. Refrain from backing out of an agreed transaction after claiming a ticket or agreeing to sell/exchange a ticket. Both parties should clearly communicate the details of each transaction in a reasonably responsive manner. Sellers should remove any tickets that they are no longer selling.</p>
+          
+          <p>3. Alerting -- Report any users who are not properly engaging with TigerTicket's platform.</p>
+        </div>
+        <div class="modal-footer">
+          <form action="delete" method="post">
+            <div class="flex-container-row">
+              <input type="checkbox" id="confirmation" name="confirmation" required>
+              <label for="confirmation">
+                I acknowledge the Code of Conduct and recognize that violation could result in removal from the platform and other necessary consequences.
+              </label><br>
+            </div>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Go Back</button>
+            <button type="submit" class="btn btn-primary">Post</button>
+          </form>
+        </div>
+      </div>
+    </div>
+</div>
+  </form>
+  
+
+
+  <script src=
+"https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js">
+  </script>
+
+  <script>
+    function optionToggle(selectedOption)
+    {
+      if(selectedOption == "Sell a Ticket")
+      {
+        selectedOption = "Description (Optional)";
+        $('#descriptionInput').attr('required', false);
+        $('#priceinput').removeAttr('max');
+      }
+      else
+      {
+        selectedOption = "Description (Required - Please indicate the date and time of the ticket that you WANT in this description box)";
+        $('#descriptionInput').attr('required', true);
+        $('#priceinput').attr('max', 0);
+      }
+       $('#description').html(selectedOption);
+
+    }
+
+    function setup()
+    {
+       selectedOption = optionToggle($('#transactionType').val());
+       $('#description').html(selectedOption);
+    }
+
+    $('document').ready(setup);
+  </script>
+  <script>
+    $(function() {
+  $(document).ready(function () {
+
+   var todaysDate = new Date(); // Gets today's date
+
+    // Max date attribute is in "YYYY-MM-DD".  Need to format today's date accordingly
+
+    var year = todaysDate.getFullYear(); // YYYY
+    var month = ("0" + (todaysDate.getMonth() + 1)).slice(-2);// MM
+    var day = ("0" + todaysDate.getDate()).slice(-2);// DD
+
+    var minDate = (year +"-"+ month +"-"+ day); // Results in "YYYY-MM-DD" for today's date
+
+    // Now to set the min date value for the calendar to be today's date
+    $('#textdate').attr('min',minDate);
+
+  });
+});
+  </script>
+  <script src="bootstrap-autocomplete.min.js"></script>
+
+  {% include 'footer.html' %}
+</html>

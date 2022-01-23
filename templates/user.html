@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+{% include 'header.html' %}
+{% if show == "groupAdded" %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong> TigerTickets has been notified about your group! </strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
+{% if error == "True" %}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <strong>Unfortunately there is a server error at this moment. Please try again later or navigate to our home page at <a href="/">www.tigertickets.herokuapps.com</a></strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
+{% if show == "True" %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong> Delete ticket successful. Your ticket has been deleted. </strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
+{% if show == "False" %}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <strong> Delete ticket unsuccessful. Your ticket was not deleted, please try again. </strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
+{% if post == "True" %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong> Post ticket successful. Your ticket has been posted. </strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
+{% if post == "False" %}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <strong> Post ticket unsuccessful. Your ticket failed to post. Please try again. </strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
+{% if edit == "True" %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong> Edit ticket successful. Your ticket information has been edited. </strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
+{% if edit == "False" %}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <strong> Edit ticket unsuccessful. Your ticket information failed to edit. Please try again. </strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
+
+{% if notif == "True" %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong> Notification submit successful. Your notification has been saved. </strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
+{% if notif == "False" %}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <strong> Notification submit unsuccessful. Your submission failed. Please try again. </strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
+{% if report == "True" %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong> Report submit successful. Thank you for your feedback. </strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
+{% if report == "False" %}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <strong> Report submit unsuccessful. Your submission failed. Please try again. </strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
+{% if confirmBool == "1" %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong> Ticket confirmed. Transaction has been completed. </strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
+
+{% if confirmBool == "0" %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong> Ticket canceled. Transaction has been canceled. </strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
+
+  <h3>{{username}} Manage my Tickets</h3>
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link {{activesell}}" href="/user">Tickets I am Selling/Exchanging</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link {{activebuy}}" href="/userbuy">Tickets I am Buying</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link {{activenotif}}" href="/usernotif">Tickets I am Looking For</a>
+    </li>
+</ul>
+  
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">NetID</th>
+        <th scope="col">Event</th>
+	<th scope="col">Date</th>
+        <th scope="col">Time</th>
+        <th scope="col">Description</th>
+        <th scope="col">Type</th>
+        <th scope="col">Price</th>
+	<th scope="col">Status</th>
+	<th scope="col"></th>
+	<th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+    <tr scope = "row"></tr>
+    {% for ticket in tickets%}
+    <tr>
+      <th scope="row">{{ticket[3]}}</th>
+      <td><p class="addReadMore showlesscontent">{{ticket[2]}}</p></td>
+      <td>{{ticket[1][0:10]}}</td>
+      <td>{{ticket[1][10:]}}</td>
+      <td><p class="addReadMore showlesscontent">{{ticket[6]}}</p></td>
+      <td>{{ticket[5]}}</td>
+      <td>{{ticket[4]}}</td>
+      <td>{{ticket[7]}}</td>
+      <td>
+        {% if ticket[7] == "available"%}
+            <form action="editpost" method="post">
+                <input type="hidden" name="ticketid" value="{{ticket[0]}}">
+                <button type="submit" class="btn-sm btn-outline-primary">Edit</button>
+            </form>
+        {% endif %}
+      </td>
+      <td>
+	{% if ticket[7] == "available" or ticket[7]== "pending"%}
+           <button type="button" class="btn-sm btn-outline-primary" data-toggle="modal" data-target="#deleteTicket{{ticket[0]}}">
+            Delete
+           </button>
+	{% endif %}
+      </td>
+      <div class="modal fade " id="deleteTicket{{ticket[0]}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">DELETE TICKET CONFIRMATION</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>Seller: {{ticket[3]}}</p>
+              <p>Event: {{ticket[2]}}</p>
+	      <p>Date: {{ticket[1][0:10]}}</p>
+              <p>Time: {{ticket[1][10:]}}</p>
+              <p>Description: {{ticket[6]}}</p>
+              <p>Type: {{ticket[5]}}</p>
+              <p>Price: {{ticket[4]}}</p>
+	      <p>Status: {{ticket[7]}}</p>
+            </div>
+	    <form action="delete" method="post">
+              <input type="hidden" name="ticketid" value="{{ticket[0]}}">
+	      <input type="hidden" name="seller" value="{{ticket[3]}}">
+	      <input type="hidden" name="buyerid" value="{{username}}">
+	      <input type="hidden" name="status" value="{{ticket[7]}}">
+            <div class="modal-footer">
+              <div class="flex-container-row">
+                <input type="checkbox" id="confirmation" name="confirmation" required>
+                <label for="confirmation">
+                  I understand that once I click the button below the ticket will be
+		  deleted from the site permanently. If the status of the ticket is
+		  pending both parties  will receive an email statement about this deletion.
+                </label><br>
+              </div>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Go Back</button>
+              <button type="submit" class="btn btn-primary">Delete this Ticket!</button>
+            </div>
+          </div>
+	  </form>
+        </div>
+      </div>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  {% if tickets|length == 0 %}
+    <p>You do not have any pending or completed ticket transactions at this time. </p>
+  {% endif %}
+<script src=
+    "https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js">
+  </script>
+  <script>
+  function AddReadMore() {
+      var carLmt = 40;
+      var readMoreTxt = "...See More";
+      var readLessTxt = "...See Less";
+      $(".addReadMore").each(function() {
+          // if ($(this).find(".firstSec").length)
+          //     return;
+          var allstr = $(this).text();
+          if (allstr.length > carLmt) {
+              var firstSet = allstr.substring(0, carLmt);
+              var secdHalf = allstr.substring(carLmt, allstr.length);
+              var strtoadd = firstSet + "<span class='SecSec'>" + secdHalf +
+                "</span><a href='javascript:void(0)' class='readMore'  title='Click to Show More'>" +
+                readMoreTxt + "</a><a href='javascript:void(0)' class='readLess' title='Click to Show Less'>" +
+                readLessTxt + "</a>";
+              $(this).html(strtoadd);
+          }
+
+      });
+      $(document).on("click", ".readMore,.readLess", function() {
+          $(this).closest(".addReadMore").toggleClass("showlesscontent showmorecontent");
+      });
+    }
+
+  $(function() {
+      AddReadMore();
+  });
+  </script>
+{% include 'footer.html' %}
+</html>

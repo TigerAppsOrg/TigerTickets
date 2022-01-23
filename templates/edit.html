@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+{% include 'header.html' %}
+{% if show == "groupAdded" %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong> TigerTickets has been notified about your group! </strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
+{% if error == "True" %}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <strong>Unfortunately there is a server error at this moment. Please try again later or navigate to our home page at <a href="/">www.tigertickets.herokuapps.com</a></strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
+  <h3>Edit Your Ticket Information</h3>
+  <form action="edit" method="post">
+  <div class="form-group">
+    <label for="event">Please select which event you are selling for（Required):</label>
+    <select class="form-control" id="eventselect" name="eventinput" onchange="otherEvents(this);">
+        {% if other == "yes" %}
+        <option value="other" selected>{{event}}</option>
+        {% else %}
+        <option selected>{{event}}</option>
+        {% endif %}
+      <optgroup label="Dance Groups">
+      	<option>BAC</option>
+      	<option>BodyHype</option>
+      	<option>Disiac</option>
+      	<option>Expressions</option>
+        <option>Highsteppers</option>
+      	<option>KoKo Pops</option>
+        <option>Mas Flow</option>
+      	<option>Naacho</option>
+        <option>Princeton Bhangra</option>
+        <option>Princeton University Ballet</option>
+      	<option>Raqs</option>
+        <option>Six14</option>
+      	<option>Sympoh</option>
+        <option>TapCats</option>
+      	<option>Triple 8</option>
+      </optgroup>
+      <optgroup label="Music Groups">
+        <option>Footnotes</option>
+        <option>Katzenjammers</option>
+        <option>Kindred Spirit</option>
+        <option>La Vie En Cello</option>
+        <option>Nassoons</option>
+        <option>Old NasSoul</option>
+        <option>Opus 21</option>
+        <option>POCO</option>
+        <option>PPE</option>
+        <option>PUO</option>
+        <option>R20</option>
+        <option>Shere Khan</option>
+        <option>Sinfonia</option>
+        <option>Tigerlilies</option>
+        <option>Tigertones</option>
+        <option>Tigressions</option>
+        <option>Wildcats</option>
+      </optgroup>
+      <optgroup label="Performance Groups">
+        <option>Fuzzy Dice</option>
+        <option>Juggling Club</option>
+        <option>Lobster Club</option>
+        <option id="Quipfire!">Quipfire!</option>
+        <option>Triangle</option>
+      </optgroup>
+      <optgroup label="Broadway Shows">
+	      <option>Butler</option>
+        <option>Forbes</option>
+        <option>Mathey</option>
+        <option>Rocky</option>
+        <option>Whitman</option>
+        <option>Wilson</option>
+      </optgroup>
+      <optgroup label="Other">
+	      <option>Other</option>
+      </optgroup>
+    </select>
+  </div>
+
+    <script>
+function otherEvents(that) {
+    if (that.value == "Other") {
+        document.getElementById("ifother").style.display = "block";
+        $('#otherevent').attr('required', true);
+    } else {
+        document.getElementById("ifother").style.display = "none";
+        $('#otherevent').attr('required', false);
+    }
+}
+   </script>
+  <div class="form-group" id="ifother" style="display: none;">
+    <label for="form-autocomplete">Please enter the name of your event (please take into consideration the list of suggested names that may appear)（Required):</label>
+    <input type="text" class="form-control" name="otherEvent" id="form-autocomplete otherevent" list="shows" value="{{othereventname}}">
+      <datalist id="shows">
+        {% for other in otherTickets %}
+        <option value='{{other[2]}}' />
+        {% endfor %}
+      </datalist>
+  </div>
+  <input type="hidden" name="ticketid" value="{{ticketid}}">
+  <div class="form-group">
+    <label for="type">Please indicate whether you are selling or exchanging your ticket（Required):</label>
+    <select class="form-control" name="type" id="transactionType" onChange="optionToggle(this.value)" value="{{type}}">
+      {% if type == "Sell a Ticket"%}
+      <option selected>Sell a Ticket</option>
+      <option>Exchange a Ticket</option>
+      {% endif %}
+      {% if type != "Sell a Ticket"%}
+      <option>Sell a Ticket</option>
+      <option selected>Exchange a Ticket</option>
+      {% endif %}
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="date">Date of the Show（Required):</label>
+    <input type="date" class="form-control" id="textdate" name="date" value="{{date}}" required>
+  </div>
+  <div class="form-group">
+    <label for="time">Time of the Show（Required):</label>
+    <input type="time" class="form-control" name="time" value="{{time}}" required>
+  </div>
+  <div class="form-group">
+    <label for="description" id="description">Description (Optional):</label>
+    <input type="description" id="descriptionInput" class="form-control" name="description" value="{{description}}">
+  </div>
+  <div class="form-group">
+    <label for="price">Please indicate the price (in dollars) you are selling at (Enter an integer greater than or equal to 0). If you clicked exchange, the price is automatically going to be 0)（Required):</label>
+    <input class="form-control" id="priceinput" name="price" type="number" min="0" value="{{price}}" required></input>
+  </div>
+  <input type="checkbox" id="confirmation" name="confirmation" required>
+  <label for="confirmation"> I understand that selling a Princeton affiliated event ticket at a price higher than its original selling price is prohibited. If reported you will be banned from TigerTickets. </label>
+
+  <div class="flex-item">
+  <button class="btn btn-success btn-lg" type="submit">Edit my Ticket</button>
+  </div>
+  </form>
+
+  <script src=
+"https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js">
+  </script>
+
+  <script>
+    function optionToggle(selectedOption)
+    {
+      if(selectedOption == "Sell a Ticket")
+      {
+        selectedOption = "Description (Optional)";
+        $('#descriptionInput').attr('required', false);
+        $('#priceinput').removeAttr('max');
+      }
+      else
+      {
+        selectedOption = "Description (Required - Please indicate the date and time of the ticket that you WANT in this description box)";
+        $('#descriptionInput').attr('required', true);
+        $('#priceinput').attr('max', 0);
+      }
+       $('#description').html(selectedOption);
+
+    }
+
+    function setup()
+    {
+       selectedOption = optionToggle($('#transactionType').val());
+       $('#description').html(selectedOption);
+    }
+
+    $('document').ready(setup);
+  </script>
+  <script>
+    $(function() {
+  $(document).ready(function () {
+
+   var todaysDate = new Date(); // Gets today's date
+
+    // Max date attribute is in "YYYY-MM-DD".  Need to format today's date accordingly
+
+    var year = todaysDate.getFullYear(); // YYYY
+    var month = ("0" + (todaysDate.getMonth() + 1)).slice(-2);// MM
+    var day = ("0" + todaysDate.getDate()).slice(-2);// DD
+
+    var minDate = (year +"-"+ month +"-"+ day); // Results in "YYYY-MM-DD" for today's date
+
+    // Now to set the min date value for the calendar to be today's date
+    $('#textdate').attr('min',minDate);
+
+  });
+});
+  </script>
+  <script src="bootstrap-autocomplete.min.js"></script>
+
+  {% include 'footer.html' %}
+</html>

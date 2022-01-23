@@ -1,0 +1,215 @@
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon-32x32.png') }}">
+  <title>TigerTickets</title>
+</head>
+
+<body>
+
+<div id="all" class="flex-container-col">
+  <nav id="menu-bar" class="navbar navbar-expand-lg navbar-light">
+    <img class="img-responsive" src="/static/media/landing.jpg" style="width:80px;height:50px;margin: -10px -10px -10px -20px;" alt></img>
+    <a class="navbar-brand" href="/">TigerTickets</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="user" >Manage My Tickets</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="report">Report</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="help">Help</a>
+        </li>
+	<li class="nav-item">
+                <a class="nav-link" href="about">About Us</a>
+        </li>
+        <li class="nav-item">
+	        <a class="nav-link" href="logout">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <div id="main-pane" class="flex-container-row">
+    <div id="search-pane" class="flex-container-col">
+      <form id="search-form" action="searchresults" method = "get">
+          {% if event == "" %}
+        <input class="form-control input-group" id="search" type="text" placeholder="Search for Events" name = "event" list="shows">
+        {% else %}
+        <input class="form-control input-group" id="search" type="text" placeholder="Search for Events" name = "event" list="shows" value="{{event}}">
+        {% endif %}
+          <datalist id="shows">
+            <option value='BAC' />
+            <option value='BodyHype' />
+            <option value='Disiac' />
+            <option value='Expressions' />
+            <option value='Footnotes' />
+            <option value='Fuzzy Dice' />
+	          <option value='Highsteppers' />
+            <option value='Juggling Club' />
+            <option value='Katzenjammers' />
+            <option value='Kindred Spirit' />
+            <option value='KoKo Pops' />
+            <option value='La Vie En Cello' />
+            <option value='Lobster Club' />
+	          <option value='Mas Flow' />
+            <option value='Naacho' />
+            <option value='Nassoons' />
+            <option value='Old NasSoul' />
+            <option value='Opus 21' />
+	          <option value='PPE' />
+	          <option value='Princeton Bhangra' />
+            <option value='Princeton Opera Company' />
+	          <option value='Princeton University Ballet' />
+	          <option value='PUO' />
+            <option value='Quipfire!' />
+            <option value='Raqs' />
+            <option value='Roaring 20' />
+            <option value='Shere Khan' />
+            <option value='Sinfonia' />
+            <option value='Six14' />
+            <option value='Sympoh' />
+      	    <option value='TapCats' />
+            <option value='Tigerlilies' />
+            <option value='Tigertones' />
+            <option value='Tigressions' />
+      	    <option value='Triangle' />
+            <option value='Wildcats' />
+            {% for other in otherTickets %}
+              <option value='{{other[2]}}' />
+            {% endfor %}
+          </datalist>
+      </form>
+      <div id="search-pane-query">
+        <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Dance Groups
+          </button>
+          <div class="dropdown-menu pre-scrollable">
+            <a class="dropdown-item" href="bac">BAC</a>
+            <a class="dropdown-item" href="bodyhype">BodyHype</a>
+      	    <a class="dropdown-item" href="disiac">Disiac</a>
+      	    <a class="dropdown-item" href="expressions">Expressions</a>
+      	    <a class="dropdown-item" href="highsteppers">Highsteppers</a>
+      	    <a class="dropdown-item" href="kokopops">KoKo Pops</a>
+      	    <a class="dropdown-item" href="masflow">Más Flow</a>
+      	    <a class="dropdown-item" href="Naacho">Naacho</a>
+      	    <a class="dropdown-item" href="bhangra">Princeton Bhangra</a>
+      	    <a class="dropdown-item" href="ballet">Princeton University Ballet</a>
+      	    <a class="dropdown-item" href="raqs">Raqs</a>
+      	    <a class="dropdown-item" href="six14">Six14</a>
+      	    <a class="dropdown-item" href="sympoh">Sympoh</a>
+      	    <a class="dropdown-item" href="tapcats">TapCats</a>
+            <a class="dropdown-item" href="triple8">Triple 8</a>
+          </div>
+        </div>
+        <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Music Groups
+          </button>
+          <div class="dropdown-menu pre-scrollable">
+            <a class="dropdown-item" href="footnotes">Footnotes</a>
+            <a class="dropdown-item" href="katzenjammers">Katzenjammers</a>
+            <a class="dropdown-item" href="kindredspirit">Kindred Spirit</a>
+            <a class="dropdown-item" href="lavie">La Vie En Cello</a>
+            <a class="dropdown-item" href="nassoons">Nassoons</a>
+            <a class="dropdown-item" href="oldnassoul">Old NasSoul</a>
+            <a class="dropdown-item" href="opus21">Opus 21</a>
+            <a class="dropdown-item" href="poco">POCO</a>
+            <a class="dropdown-item" href="ppe">PPE</a>
+            <a class="dropdown-item" href="puo">PUO</a>
+            <a class="dropdown-item" href="r20">R20</a>
+            <a class="dropdown-item" href="sherekhan">Shere Khan</a>
+            <a class="dropdown-item" href="sinfonia">Sinfonia</a>
+            <a class="dropdown-item" href="tigerlilies">Tigerlilies</a>
+            <a class="dropdown-item" href="tigertones">Tigertones</a>
+            <a class="dropdown-item" href="tigressions">Tigressions</a>
+            <a class="dropdown-item" href="wildcats">Wildcats</a>
+          </div>
+        </div>
+        <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Performance Groups
+          </button>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="fuzzydice">Fuzzy Dice</a>
+            <a class="dropdown-item" href="jugglingclub">Juggling Club</a>
+            <a class="dropdown-item" href="lobsterclub">Lobster Club</a>
+            <a class="dropdown-item" href="quipfire">Quipfire!</a>
+            <a class="dropdown-item" href="triangle">Triangle</a>
+          </div>
+        </div>
+        <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Broadway Shows
+          </button>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="butler">Butler</a>
+            <a class="dropdown-item" href="forbes">Forbes</a>
+      	    <a class="dropdown-item" href="mathey">Mathey</a>
+      	    <a class="dropdown-item" href="rocky">Rocky</a>
+      	    <a class="dropdown-item" href="whitman">Whitman</a>
+      	    <a class="dropdown-item" href="wilson">Wilson</a>
+          </div>
+        </div>
+        <div class="dropdown">
+          <a class="btn btn-secondary" href="other">
+            Other Shows
+          </a>
+        </div>
+        <h6 id="numberResults">{{tickets|length}} Results</h6>
+        <div>
+        {% if alltickets == "False" %}
+        <div class="flex-container-row">
+        <small><a id="close" class="close" aria-label="Close" href="index">×
+          </a>
+        </small>
+        <p>{{event}}</p>
+        </div>
+        {% endif %}
+        <small>Don't see your group? Click <a data-toggle="modal" href="#addGroup">here</a>!</small>
+        </div>
+        <div class="modal fade" id="addGroup" tabindex="-1" role="dialog">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Add Your Group To TigerTickets</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <form action="newGroup" method="post">
+                <div class="modal-body">
+                  <p>Submit the name of your performance group below for approval. Please wait a few seconds after submitting.</p>
+                  <input type="text" class="form-control" id="newGroup" name="group" required>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Go Back</button>
+                  <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#groupSent">Submit</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div id="search-pane-submit">
+        <a href="post" class="btn btn-success btn-lg" id="postButton">    
+          <img class="img-responsive" src="/static/media/landing.jpg" style="width:80px;height:50px;margin: -20px -20px -15px -20px;" alt></img>
+          Make a Post!</a>
+        <a href="post" id="smallButton">Post!</a><span id="extraSpace">&emsp;&emsp;&emsp;&emsp;</span><a href="notify" id="smallButton">Notify me!</a>
+      </div>
+      <div id="search-pane-submit">
+        <a href="notify" id="notify-button" class="btn btn-info btn-sm">Notify me of<br> ticket availability!</a>
+      </div>
+    </div>
+
+    <div id="result-pane" class="overflow-auto">

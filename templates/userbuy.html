@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en">
+{% include 'header.html' %}
+{% if show == "groupAdded" %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong> TigerTickets has been notified about your group! </strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
+{% if error == "True" %}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <strong>Unfortunately there is a server error at this moment. Please try again later or navigate to our home page at <a href="/">www.tigertickets.herokuapps.com</a></strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
+{% if show == "True" %}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <strong>Claim unsuccessful. It seems that this ticket has already been claimed. Please try another. </strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
+{% if show == "Success" %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong> Claim successful. You will be notified through email if the seller confirms this transaction. </strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+{% endif %}
+{% if report == "True" %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong> Report submit successful. Thank you for your feedback. </strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
+{% if report == "False" %}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <strong> Report submit unsuccessful. Your submission failed. Please try again. </strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
+{% if confirmBool == "1" %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong> Ticket confirmed. Transaction has been completed. </strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
+
+{% if confirmBool == "0" %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong> Ticket canceled. Transaction has been canceled. </strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
+
+{% if post == "True" %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong> Post ticket successful. Your ticket has been posted. </strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
+{% if post == "False" %}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <strong> Post ticket unsuccessful. Your ticket failed to post. Please try again. </strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
+
+{% if notif == "True" %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong> Notification submit successful. Your notification has been saved. </strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
+{% if notif == "False" %}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <strong> Notification submit unsuccessful. Your submission failed. Please try again. </strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
+
+{% if delete == "True" %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong> Your claim has been successfully canceled. </strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
+{% if delete == "False" %}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <strong> Cancel claim unsuccessful. Your claim was not canceled. Please try again. </strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
+  <h3>{{username}} Manage my Tickets</h3>
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link {{activesell}}" href="/user">Tickets I am Selling/Exchanging</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link {{activebuy}}" href="/userbuy">Tickets I am Buying</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link {{activenotif}}" href="/usernotif">Tickets I am Looking For</a>
+    </li>
+</ul>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Seller NetID</th>
+        <th scope="col">Event</th>
+	<th scope="col">Date</th>
+        <th scope="col">Time</th>
+        <th scope="col">Description</th>
+        <th scope="col">Type</th>
+        <th scope="col">Price</th>
+	<th scope="col">Transaction Status</th>
+	<th scope="col">Ticket Status</th>
+	<th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+    <tr scope = "row"></tr>
+    {% for ticket in tickets%}
+    <tr>
+      <th scope="row">{{ticket[1]}}</th>
+      <td><p class="addReadMore showlesscontent">{{ticket[5]}}</p></td>
+      <td>{{ticket[4][0:10]}}</td>
+      <td>{{ticket[4][10:]}}</td>
+      <td><p class="addReadMore showlesscontent">{{ticket[8]}}</p></td>
+      <td>{{ticket[7]}}</td>
+      <td>{{ticket[6]}}</td>
+      <td>{{ticket[3]}}</td>
+      <td>{{ticket[9]}}</td>
+      <td>
+	{% if ticket[9] == "pending" and ticket[3] == "pending"%}
+	<button type="button" class="btn-sm btn-outline-primary" data-toggle="modal" data-target="#cancelTicket{{ticket[0]}}">
+          Cancel my Claim
+	</button>
+    {% elif ticket[9] == "available"%}
+    <button type="button" class="btn-sm btn-outline-primary" data-toggle="modal" data-target="#claimTicket{{ticket[0]}}">
+          Claim
+    </button>
+	{% endif %}
+      </td>
+      <div class="modal fade " id="cancelTicket{{ticket[0]}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">CANCEL CLAIM CONFIRMATION</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>Seller: {{ticket[1]}}</p>
+              <p>Event: {{ticket[5]}}</p>
+              <p>Date: {{ticket[4][0:10]}}</p>
+              <p>Time: {{ticket[4][10:]}}</p>
+              <p>Description: {{ticket[8]}}</p>
+              <p>Type: {{ticket[7]}}</p>
+              <p>Price: {{ticket[6]}}</p>
+	      <p>Transaction Status: {{ticket[3]}}</p>
+	      <p> Ticket Status: {{ticket[9]}} </p>
+            </div>
+            <form action="deleteclaim" method="post">
+              <input type="hidden" name="ticketid" value="{{ticket[2]}}">
+              <input type="hidden" name="seller" value="{{ticket[1]}}">
+              <input type="hidden" name="buyerid" value="{{username}}">
+            <div class="modal-footer">
+              <div class="flex-container-row">
+                <input type="checkbox" id="confirmation" name="confirmation" required>
+                <label for="confirmation">
+		  I understand that once I click the button below my claim for this ticket will be
+                  canceled permanently and both parties  will receive an email statement about this deletion.
+                </label><br>
+              </div>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Go Back</button>
+              <button type="submit" class="btn btn-primary">Cancel this Claim!</button>
+            </div>
+	  </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="modal fade " id="claimTicket{{ticket[0]}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">TICKET CONFIRMATION</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>Seller: {{ticket[1]}}</p>
+              <p>Event: {{ticket[5]}}</p>
+          <p>Date: {{ticket[4][0:10]}}</p>
+              <p>Time: {{ticket[4][10:]}}</p>
+              <p>Description: {{ticket[8]}}</p>
+              <p>Type: {{ticket[7]}}</p>
+              <p>Price: {{ticket[6]}}</p>
+            </div>
+        <form action="claim" method="post">
+              <input type="hidden" name="ticketid" value="{{ticket[2]}}">
+          <input type="hidden" name="seller" value="{{ticket[1]}}">
+          <input type="hidden" name="buyerid" value="{{username}}">
+            <div class="modal-footer">
+              <div class="flex-container-row">
+                <input type="checkbox" id="confirmation" name="confirmation" required>
+                <label for="confirmation">
+                  I want this ticket and I certify that I am willing to make the
+                  exchange before the show time as per the convenience of both parties.
+                  I understand that once I click the button below both parties
+                  will receive an email statement describing their contact information.
+                </label><br>
+              </div>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Go Back</button>
+              <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#ticketTaken">Claim this Ticket!</button>
+            </div>
+          </div>
+      </form>
+        </div>
+      </div>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  {% if tickets|length == 0 %}
+    <p>You do not have any pending or completed ticket transactions at this time. </p>
+  {% endif %}
+  
+<script src=
+  "https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js">
+</script>
+<script>
+function AddReadMore() {
+    var carLmt = 10;
+    var readMoreTxt = "...See More";
+    var readLessTxt = "...See Less";
+    $(".addReadMore").each(function() {
+        // if ($(this).find(".firstSec").length)
+        //     return;
+        var allstr = $(this).text();
+        if (allstr.length > carLmt) {
+            var firstSet = allstr.substring(0, carLmt);
+            var secdHalf = allstr.substring(carLmt, allstr.length);
+            var strtoadd = firstSet + "<span class='SecSec'>" + secdHalf +
+              "</span><a href='javascript:void(0)' class='readMore'  title='Click to Show More'>" +
+              readMoreTxt + "</a><a href='javascript:void(0)' class='readLess' title='Click to Show Less'>" +
+              readLessTxt + "</a>";
+            $(this).html(strtoadd);
+        }
+
+    });
+    $(document).on("click", ".readMore,.readLess", function() {
+        $(this).closest(".addReadMore").toggleClass("showlesscontent showmorecontent");
+    });
+  }
+
+$(function() {
+    AddReadMore();
+});
+</script>
+{% include 'footer.html' %}
+</html>

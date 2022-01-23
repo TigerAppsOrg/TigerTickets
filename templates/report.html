@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+{% include 'header.html' %}
+{% if show == "groupAdded" %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong> TigerTickets has been notified about your group! </strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
+{% if error == "True" %}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <strong>Unfortunately there is a server error at this moment. Please try again later or navigate to our home page at <a href="/">www.tigertickets.herokuapps.com</a></strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
+<h3>Report Users</h3>
+<p>Common cases for when a user should be reported include user sells a fraudulent ticket, a user 
+  sells a Princeton-affiliated ticket for more than the original price, a user claiming a large 
+  number of tickets within a short time period, etc. Please use your best judgement and do not 
+  arbitrarily report other users for reasons outside of these guidelines.</p>
+<form action="postreport" method="post">
+<div class="form-group">
+<div class="form-group">
+  <label for="reportid">What is the netid of the user you are reporting?</label>
+  <input class="form-control" name="reportid"></input>
+</div>
+<div class="form-group">
+  <label for="report">What did this user do?</label>
+  <input class="form-control" name="report"></input>
+</div>
+<div class="flex-item">
+<button class="btn btn-success btn-lg" type="submit">Submit</button>
+</div>
+</form>
+<br>
+<h3>Report Bugs</h3>
+<form action="postbugreport" method="post">
+  <div class="form-group">
+    <div class="form-group">
+      <label for="bug">What bug are you reporting?</label>
+      <input class="form-control" name="bug"></input>
+    </div>
+
+    <div class="flex-item">
+    <button class="btn btn-success btn-lg" type="submit">Submit</button>
+  </div>
+</form>
+
+  <script src=
+"https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js">
+  </script>
+  <script src="bootstrap-autocomplete.min.js"></script>
+
+  {% include 'footer.html' %}
+</html>
